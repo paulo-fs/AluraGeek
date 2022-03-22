@@ -1,0 +1,41 @@
+import styled, { css } from 'styled-components';
+
+export default styled.button`
+  min-width: 182px;
+  height: 51px;
+  padding: 0 16px;
+
+  background-color: ${({ theme }) => theme.colors.main};
+  color: #fff;
+  border: 1px solid transparent;
+  font-weight: normal;
+  font-size: 16px;
+
+  transition: .2s ease-in;
+  &:hover{
+    background-color: ${({ theme }) => theme.colors.mainLight1};
+  }
+
+  &:active{
+    background-color: ${({ theme }) => theme.colors.black};
+  }
+
+  &[disabled] {
+    background-color: ${({ theme }) => theme.colors.gray};
+  }
+
+  ${({ theme, secondary }) => secondary && css`
+    background: none;
+    color: ${theme.colors.main};
+    border: 1px solid ${theme.colors.main};
+
+    &:hover{
+      background-color: ${theme.colors.mainLight2};
+    }
+
+    &:active{
+      background-color: ${theme.colors.main};
+      color: #fff;
+    }
+  `}
+`;
