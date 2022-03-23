@@ -5,7 +5,7 @@ import defaultTheme from '../../assets/styles/themes/default';
 
 import { Container } from './style';
 
-import NavBar from '../NavBar/NavBar';
+import Header from '../Header/Header';
 import Banner from '../Banner/Banner';
 import Products from '../Products/Products';
 import Footer from '../Footer/Footer';
@@ -15,7 +15,7 @@ function App() {
     <ThemeProvider theme={defaultTheme}>
       <GlobalStyles />
       <Container>
-        <NavBar />
+        <Header secondary />
         <Banner />
         <Products />
         <Footer />

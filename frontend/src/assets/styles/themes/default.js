@@ -8,7 +8,7 @@ export default {
     black: '#464646',
     gray: '#6c757d',
     grayLight: '#f5f5f5',
-    grayDark: '#a2a2a2',
+    grayDark: '#c8c8c8',
     danger: '#dc3545',
     warning: '#ffc107',
     success: '#28a745',

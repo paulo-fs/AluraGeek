@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 export default styled.button`
-  min-width: 182px;
+  width: 182px;
   height: 51px;
   padding: 0 16px;
 
@@ -25,17 +25,18 @@ export default styled.button`
   }
 
   ${({ theme, secondary }) => secondary && css`
-    background: none;
     color: ${theme.colors.main};
+    background: #fff;
     border: 1px solid ${theme.colors.main};
 
     &:hover{
-      background-color: ${theme.colors.mainLight2};
-    }
+    background: ${theme.colors.mainLight2};
+  }
 
-    &:active{
-      background-color: ${theme.colors.main};
-      color: #fff;
-    }
+  &:active{
+    background: ${theme.colors.main};
+    color: #fff;
+  }
   `}
+
 `;
