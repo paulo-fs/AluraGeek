@@ -17,4 +17,9 @@ export default createGlobalStyle`
   button{
     cursor: pointer;
   }
+
+  .content-component{
+    width: 100%;
+    padding: 64px 152px;
+  }
 `;

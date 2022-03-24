@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import { Logo, Container, SearchForm } from './style';
 
@@ -10,13 +11,17 @@ export default function Header({ secondary }) {
     <Container secondary={secondary}>
       <div className="nav-items">
         <Logo>
-          <img src={logo} alt="Logo AluraGeek" />
+          <Link to="/">
+            <img src={logo} alt="Logo AluraGeek" />
+          </Link>
         </Logo>
         <SearchForm secondary={secondary}>
           <input placeholder="O que deseja encontrar?" />
-          <Button type="button" secondary={secondary}>
-            Login
-          </Button>
+          <Link to="/login">
+            <Button type="button" secondary={secondary}>
+              Login
+            </Button>
+          </Link>
         </SearchForm>
       </div>
     </Container>
