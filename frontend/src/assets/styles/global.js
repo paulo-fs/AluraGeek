@@ -9,8 +9,18 @@ export default createGlobalStyle`
   }
 
   body{
-    background-color: ${({ theme }) => theme.colors.background};
+    background-color: #fff;
     color: ${({ theme }) => theme.colors.black};
+
+    p{
+      font-size: 16px;
+      line-height: 24px;
+    }
+
+    h1{
+      font-size: 52px;
+      font-weight: normal;
+    }
 
   }
 
@@ -21,5 +31,6 @@ export default createGlobalStyle`
   .content-component{
     width: 100%;
     padding: 64px 152px;
+    background-color: ${({ theme }) => theme.colors.background};
   }
 `;

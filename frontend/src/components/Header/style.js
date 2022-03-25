@@ -38,10 +38,21 @@ export const SearchForm = styled.form`
     height: 40px;
     padding: 0 16px;
 
+    appearance: none;
+    outline: none;
+
     border: none;
     border-radius: 20px;
     background-color: ${({ theme }) => theme.colors.grayLight};
     color: ${({ theme }) => theme.colors.grayDark};
+
+    &:focus{
+      border: none;
+    }
+
+    &:active{
+      border: none;
+    }
 
   }
 `;
