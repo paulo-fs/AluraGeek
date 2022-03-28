@@ -1,5 +1,13 @@
+import ProductSection from '../../components/ProductSection/ProductSection';
+
 export default function Home() {
   return (
-    <h1>home page</h1>
+    <>
+      <ProductSection
+        category="Star Wars"
+      />
+      <ProductSection />
+      <ProductSection />
+    </>
   );
 }
