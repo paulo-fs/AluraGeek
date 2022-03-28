@@ -1,12 +1,10 @@
 import { Container } from './style';
 
-import photo from '../../assets/images/sw-01.jpg';
-
 export default function Product() {
   return (
     <Container>
       <div className="photo">
-        <img src={photo} alt="foto do produto" />
+        <img src="/images/starwars/01.jpg" alt="foto do produto" />
       </div>
       <div className="info">
         <h1>Produto XYZ</h1>

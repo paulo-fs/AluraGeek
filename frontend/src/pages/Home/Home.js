@@ -4,10 +4,17 @@ export default function Home() {
   return (
     <>
       <ProductSection
-        category="Star Wars"
+        categoryTitle="Star Wars"
+        category="starwars"
       />
-      <ProductSection />
-      <ProductSection />
+      <ProductSection
+        categoryTitle="Consoles"
+        category="consoles"
+      />
+      <ProductSection
+        categoryTitle="Diversos"
+        category="diversos"
+      />
     </>
   );
 }
