@@ -1,35 +1,29 @@
 const db = require('../../database/index');
 
-
-let categories = [
-
-  {
-    id: 2,
-    name: 'Consoles',
-  },
-  {
-    id: 3,
-    name: 'Diversos'
-  }
-];
-
 class CategoryRepository{
   async findAll(){
     const row = await db.query('SELECT * FROM category');
     return row;
-    // return new Promise((resolve) => resolve(categories));
   }
 
-  findById(id){
-    return new Promise((resolve) => resolve(
-      categories.find((category) => category.id == id)
-    ));
+  async findById(id){
+    const row = await db.query(`
+      SELECT *
+      FROM category
+      WHERE category.id = $1
+    `, [id]);
+
+    return row;
   }
 
-  findByName(name){
-    return new Promise((resolve) => resolve(
-      categories.find((category) => category.name === name)
-    ));
+  async findByName(name){
+    const row = await db.query(`
+      SELECT name
+      FROM category
+      WHERE category.name = $1
+    `, [name]);
+
+    return row;
   }
 
   async create({name}){
@@ -40,50 +34,27 @@ class CategoryRepository{
     `, [name]);
 
     return row;
-
-    // return new Promise((resolve) => {
-
-    //   let idExists = categories.some((category) => (
-    //     category.id == categories.length
-    //   ));
-
-    //   let newId = 1;
-
-    //   while(idExists){
-    //     newId +=1;
-
-    //     idExists = categories.some((category) => (
-    //       category.id == newId
-    //     ));
-    //   }
-
-    //   const newCategory = {
-    //     id: newId,
-    //     name,
-    //   };
-
-    //   categories.push(newCategory);
-    //   resolve(newCategory);
-    // })
   }
 
-  update(id, {name}){
-    return new Promise((resolve) => {
-      const updatedCategory = { id, name };
+  async update(id, {name}){
+    const row = await db.query(`
+      UPDATE category
+      SET name = $1
+      WHERE category.id = $2
+      RETURNING *
+    `, [name, id]);
 
-      categories = categories.map((category) => (
-        category.id == id ? updatedCategory : category
-      ));
-
-      resolve(updatedCategory);
-    })
+    return row;
   }
 
-  delete(id){
-    return new Promise((resolve) => {
-      categories = categories.filter((category) => category.id != id);
-      resolve(categories);
-    });
+  async delete(id){
+    const row = await db.query(`
+      DELETE
+      FROM category
+      WHERE category.id = $1
+    `, [id]);
+
+    return row;
   }
 }
 

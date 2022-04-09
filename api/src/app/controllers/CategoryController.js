@@ -10,7 +10,7 @@ class CategoryController{
     const { id } = request.params;
 
     const category = await CategoryRepository.findById(id);
-    if(!category){
+    if(category.length == 0){
       return response.status(404).json({ error: 'Category not found.' });
     }
 
@@ -25,7 +25,7 @@ class CategoryController{
     }
 
     const categoryExists = await CategoryRepository.findByName(name);
-    if(categoryExists){
+    if(categoryExists.length != 0){
       return response.status(400).json({ error: 'This category already exists.'});
     }
 
@@ -42,12 +42,12 @@ class CategoryController{
     }
 
     const categoryExists = await CategoryRepository.findById(id);
-    if(!categoryExists){
+    if(categoryExists.length == 0){
       return response.status(404).json({ error: 'Category not found.' });
     }
 
     const categoryByName = await CategoryRepository.findByName(name);
-    if(categoryByName && categoryByName.id == id){
+    if(categoryByName.length != 0){
       return response.status(400).json({ error: 'Alread exists a category with this name'});
     }
 
@@ -59,7 +59,7 @@ class CategoryController{
     const { id } = request.params;
 
     const categoryExists = await CategoryRepository.findById(id);
-    if(!categoryExists){
+    if(categoryExists.length == 0){
       return response.status(404).json({ error: 'Category not found.' });
     }
 

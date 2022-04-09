@@ -30,26 +30,34 @@ let products = [
 
 class ProductRepository {
   async findAll(){
-    // const row = await db.query('SELECT * FROM product');
     const row = await db.query(`
-      SELECT product.name, price, info, photo, category.name AS category_name FROM product
-      RIGHT JOIN category
+      SELECT product.id, product.name, price, info, photo, category.name AS category_name FROM product
+      LEFT JOIN category
       ON product.category_id = category.id
     `);
     return row;
-    // return new Promise((resolve) => resolve(products));
   }
 
-  findById(id){
-    return new Promise((resolve) => resolve(
-      products.find((product) => product.id === id)
-    ));
+  async findById(id){
+    const row = await db.query(`
+      SELECT product.*, category.name AS category_name
+      FROM product
+      RIGHT JOIN category
+      ON product.category_id = category.id
+      WHERE product.id = $1
+    `, [id]);
+
+    return row;
   }
 
-  findByName(name){
-    return new Promise((resolve) => resolve(
-      products.find((product) => product.name == name)
-    ));
+  async findByName(name){
+    const row = await db.query(`
+      SELECT name
+      FROM product
+      WHERE product.name = $1
+    `, [name]);
+
+    return row;
   }
 
   async create({
@@ -62,45 +70,27 @@ class ProductRepository {
     `, [name, price, info, photo, category_id]);
 
     return row;
-
-    // return new Promise((resolve) => {
-    //   const newProduct = {
-    //     id: v4(),
-    //     name,
-    //     price,
-    //     info,
-    //     photo,
-    //     category_id,
-    //   };
-
-    //   products.push(newProduct);
-    //   resolve(newProduct);
-    // });
   }
 
-  update(id, {
+  async update(id, {
     name, price, info, photo, category_id
   }){
-    return new Promise((resolve) => {
-      const productUpdated = {
-        id,
-        name,
-        price,
-        info,
-        photo,
-        category_id
-      };
+    const row = await db.query(`
+      UPDATE product
+      SET name = $1, price = $2, info = $3, photo = $4, category_id = $5
+      WHERE product.id = $6
+      RETURNING *
+    `, [name, price, info, photo, category_id, id]);
 
-      products = products.map((product) => product.id === id ? productUpdated : product);
-
-      resolve(productUpdated);
-    })
+    return row;
   }
 
-  delete(id){
-    return new Promise((resolve) => resolve(
-      products = products.filter((product) => product.id !== id)
-    ));
+  async delete(id){
+    const row = await db.query(`
+      DELETE
+      FROM product
+      WHERE product.id = $1
+    `, [id]);
   }
 }
 

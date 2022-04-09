@@ -12,15 +12,11 @@ class ProductController {
 
     const product = await ProductRepository.findById(id);
 
-    if(!product){
+    if(product.length == 0){
       return response.status(404).json({ error: 'Product not found.'});
     }
 
     response.json(product);
-  }
-
-  async find(request, response){
-
   }
 
   async store(request, response){
@@ -34,7 +30,7 @@ class ProductController {
 
     const productExists = await ProductRepository.findByName(name);
 
-    if(productExists){
+    if(productExists != 0){
       return response.status(404).json({ error: 'There is another product with this name.' });
     }
 
@@ -54,12 +50,12 @@ class ProductController {
     }
 
     const productExists = await ProductRepository.findById(id);
-    if(!productExists){
+    if(productExists.length == 0){
       return response.status(404).json({ error: 'Product not found.' });
     }
 
     const productByName = await ProductRepository.findByName(name);
-    if(productByName && productByName.id !== id){
+    if(productByName.length > 1 ){
       return response.status(400).json({ error: 'There is another product with this name.' });
     }
 
@@ -74,7 +70,7 @@ class ProductController {
     const { id } = request.params;
 
     const product = await ProductRepository.findById(id);
-    if(!product){
+    if(product.length == 0){
       return response.status(404).json({ error: 'Product not found.' });
     }
 

@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS category(
 
 CREATE TABLE IF NOT EXISTS product(
   id UUID NOT NULL UNIQUE DEFAULT uuid_generate_v4(),
-  name VARCHAR NOT NULL UNIQUE,
+  name VARCHAR NOT NULL,
   price NUMERIC(6, 2) NOT NULL,
   info VARCHAR,
   photo VARCHAR,
