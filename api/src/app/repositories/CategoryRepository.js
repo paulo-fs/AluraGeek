@@ -1,9 +1,8 @@
+const db = require('../../database/index');
+
 
 let categories = [
-  {
-    id: 1,
-    name: 'Star Wars',
-  },
+
   {
     id: 2,
     name: 'Consoles',
@@ -15,8 +14,10 @@ let categories = [
 ];
 
 class CategoryRepository{
-  findAll(){
-    return new Promise((resolve) => resolve(categories));
+  async findAll(){
+    const row = await db.query('SELECT * FROM category');
+    return row;
+    // return new Promise((resolve) => resolve(categories));
   }
 
   findById(id){
@@ -31,31 +32,39 @@ class CategoryRepository{
     ));
   }
 
-  create({name}){
-    return new Promise((resolve) => {
+  async create({name}){
+    const row = await db.query(`
+      INSERT INTO category(name)
+      VALUES($1)
+      RETURNING *
+    `, [name]);
 
-      let idExists = categories.some((category) => (
-        category.id == categories.length
-      ));
+    return row;
 
-      let newId = 1;
+    // return new Promise((resolve) => {
 
-      while(idExists){
-        newId +=1;
+    //   let idExists = categories.some((category) => (
+    //     category.id == categories.length
+    //   ));
 
-        idExists = categories.some((category) => (
-          category.id == newId
-        ));
-      }
+    //   let newId = 1;
 
-      const newCategory = {
-        id: newId,
-        name,
-      };
+    //   while(idExists){
+    //     newId +=1;
 
-      categories.push(newCategory);
-      resolve(newCategory);
-    })
+    //     idExists = categories.some((category) => (
+    //       category.id == newId
+    //     ));
+    //   }
+
+    //   const newCategory = {
+    //     id: newId,
+    //     name,
+    //   };
+
+    //   categories.push(newCategory);
+    //   resolve(newCategory);
+    // })
   }
 
   update(id, {name}){

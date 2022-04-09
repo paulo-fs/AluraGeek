@@ -1,15 +1,18 @@
 CREATE DATABBASE alurageek;
 
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 CREATE TABLE IF NOT EXISTS category(
-  id SMALLINT NOT NULL UNIQUE PRIMARY KEY,
+  id UUID NOT NULL UNIQUE DEFAULT uuid_generate_v4(),
   name VARCHAR NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS product(
-  id SMALLINT NOT NULL UNIQUE PRIMARY KEY,
+  id UUID NOT NULL UNIQUE DEFAULT uuid_generate_v4(),
   name VARCHAR NOT NULL UNIQUE,
-  price DECIMAL NOT NULL,
+  price NUMERIC(6, 2) NOT NULL,
+  info VARCHAR,
   photo VARCHAR,
-  category_id SMALLINT,
+  category_id UUID,
   FOREIGN KEY(category_id) REFERENCES category(id)
 );

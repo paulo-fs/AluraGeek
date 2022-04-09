@@ -1,4 +1,5 @@
 const { v4 } = require('uuid');
+const db = require('../../database/index');
 
 let products = [
   {
@@ -28,8 +29,15 @@ let products = [
 ]
 
 class ProductRepository {
-  findAll(){
-    return new Promise((resolve) => resolve(products));
+  async findAll(){
+    // const row = await db.query('SELECT * FROM product');
+    const row = await db.query(`
+      SELECT product.name, price, info, photo, category.name AS category_name FROM product
+      RIGHT JOIN category
+      ON product.category_id = category.id
+    `);
+    return row;
+    // return new Promise((resolve) => resolve(products));
   }
 
   findById(id){
@@ -44,22 +52,30 @@ class ProductRepository {
     ));
   }
 
-  create({
+  async create({
     name, price, info, photo, category_id
   }){
-    return new Promise((resolve) => {
-      const newProduct = {
-        id: v4(),
-        name,
-        price,
-        info,
-        photo,
-        category_id,
-      };
+    const row = await db.query(`
+      INSERT INTO product(name, price, info, photo, category_id)
+      VALUES($1, $2, $3, $4, $5)
+      RETURNING *
+    `, [name, price, info, photo, category_id]);
 
-      products.push(newProduct);
-      resolve(newProduct);
-    });
+    return row;
+
+    // return new Promise((resolve) => {
+    //   const newProduct = {
+    //     id: v4(),
+    //     name,
+    //     price,
+    //     info,
+    //     photo,
+    //     category_id,
+    //   };
+
+    //   products.push(newProduct);
+    //   resolve(newProduct);
+    // });
   }
 
   update(id, {
