@@ -1,39 +1,14 @@
-const { v4 } = require('uuid');
 const db = require('../../database/index');
 
-let products = [
-  {
-  id: v4(),
-  name: 'Caneca Darth Vader',
-  price: 'R$70,00',
-  info: 'Caneca lorem ipsum lorem ipsum ipsum lorem ipsum',
-  photo: '%PUBLIC%/img/01.jpg',
-  category_id: v4(),
-},
-{
-  id: v4(),
-  name: 'Caneca Pikachu',
-  price: 'R$50,00',
-  info: 'Caneca lorem ipsum lorem ipsum ipsum lorem ipsum',
-  photo: '%PUBLIC%/img/02.jpg',
-  category_id: v4(),
-},
-{
-  id: v4(),
-  name: 'Caneca Storm Trooper',
-  price: 'R$60,00',
-  info: 'Caneca lorem ipsum lorem ipsum ipsum lorem ipsum',
-  photo: '%PUBLIC%/img/03.jpg',
-  category_id: v4(),
-},
-]
-
 class ProductRepository {
-  async findAll(){
+  async findAll(orderBy = 'ASC'){
+    const direction = orderBy.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
+
     const row = await db.query(`
       SELECT product.id, product.name, price, info, photo, category.name AS category_name FROM product
       LEFT JOIN category
       ON product.category_id = category.id
+      ORDER BY product.name ${direction}
     `);
     return row;
   }
