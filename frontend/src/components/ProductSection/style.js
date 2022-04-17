@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.section`
   width: 100%;
+  margin: 0 auto;
 
   .title{
     display: flex;
@@ -32,11 +33,29 @@ export const Container = styled.section`
 
   .products{
     display: flex;
+    justify-content: center;
     gap: 16px;
   }
 
   & + & {
     margin: 64px 0;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1460px){
+    width: 100%;
+
+    .title{
+      max-width: 1150px;
+      margin: 0 auto;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .products{
+      flex-wrap: wrap;
+    }
   }
 
 `;

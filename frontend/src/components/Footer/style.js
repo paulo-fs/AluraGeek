@@ -55,10 +55,25 @@ export const Container = styled.footer`
     }
   }
 
+
+
+
   .author{
     padding: 32px 152px;
     display: flex;
     gap: 8px;
     justify-content: center;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1280px)  {
+    width: 100%;
+    margin: 0 auto;
+
+    .site-map{
+      padding: 32px;
+      margin: 0 auto;
+      flex-direction: column;
+      flex-wrap: wrap;
+    }
   }
 `;

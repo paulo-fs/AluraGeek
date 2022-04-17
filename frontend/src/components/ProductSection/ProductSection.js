@@ -5,24 +5,41 @@ import { useEffect, useState } from 'react';
 import ProductCard from '../ProductCard/ProductCard';
 
 import { Container } from './style';
-
 import Arrow from '../../assets/icons/arrow.svg';
 
-export default function ProductSection({ categoryTitle, category }) {
+import ProductService from '../../services/ProductService';
+
+export default function ProductSection({ categoryTitle }) {
   const [product, setProduct] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [limitItems, setLimitItems] = useState(6);
+  const [pageWidth, setPageWidth] = useState(window.innerWidth);
 
   useEffect(() => {
-    fetch('http://localhost:3001/products')
-      .then(async (response) => {
-        const json = await response.json();
-        setProduct(json);
-      })
-      .catch((error) => {
-        console.log('erro', error);
-      });
+    async function loadProducts(){
+      try{
+        setIsLoading(true);
+        setLimitItems(window.innerWidth)
+
+        const productList = await ProductService.listProducts();
+        setProduct(productList);
+
+        if(pageWidth < 1220){
+          setLimitItems(4);
+        }
+
+      } catch(error){
+        console.log('error', error);
+      }
+    }
+
+    loadProducts();
   }, []);
 
-  // console.log(product[0].photo);
+  const listProductByCategory = product.filter((product) => {
+    return product.category_name === categoryTitle;
+  })
+
 
   return (
     <Container>
@@ -36,58 +53,18 @@ export default function ProductSection({ categoryTitle, category }) {
       <div className="products">
 
         {
-          product.map((products) => (
-            <ProductCard
+          listProductByCategory.map((products, i) => {
+            if(i < limitItems){
+              return <ProductCard
               key={products.id}
               name={products.name}
               price={products.price}
               link={`/product/${products.id}`}
               photo={products.photo}
             />
-          ))
+            }
+          })
         }
-
-        {/* <ProductCard
-          name="Produto X"
-          price="R$55,00"
-          link="/product/1"
-          photo={`/images/${category}/01.jpg`}
-        />
-
-        <ProductCard
-          name="Produto Y"
-          price="R$75,00"
-          link="/product/2"
-          photo={`/images/${category}/02.jpg`}
-        />
-
-        <ProductCard
-          name="Produto Z"
-          price="R$95,00"
-          link="/product/3"
-          photo={`/images/${category}/03.jpg`}
-        />
-
-        <ProductCard
-          name="Produto W"
-          price="R$15,00"
-          link="/product/4"
-          photo={`/images/${category}/04.jpg`}
-        />
-
-        <ProductCard
-          name="Produto A"
-          price="R$35,00"
-          link="/product/5"
-          photo={`/images/${category}/05.jpg`}
-        />
-
-        <ProductCard
-          name="Produto B"
-          price="R$65,00"
-          link="/product/6"
-          photo={`/images/${category}/06.jpg`}
-        /> */}
 
       </div>
     </Container>
@@ -96,5 +73,4 @@ export default function ProductSection({ categoryTitle, category }) {
 
 ProductSection.propTypes = {
   categoryTitle: PropTypes.string,
-  category: PropTypes.string,
 };

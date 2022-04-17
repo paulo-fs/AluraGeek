@@ -11,6 +11,7 @@ export default createGlobalStyle`
   body{
     background-color: #fff;
     color: ${({ theme }) => theme.colors.black};
+    overflow-x: hidden;
 
     p{
       font-size: 16px;
@@ -32,5 +33,19 @@ export default createGlobalStyle`
     width: 100%;
     padding: 64px 152px;
     background-color: ${({ theme }) => theme.colors.background};
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1460px){
+    .content-component{
+      margin: 0 auto;
+      padding: 32px;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .content-component{
+      margin: 0 auto;
+      padding: 16px;
+    }
   }
 `;
