@@ -1,4 +1,4 @@
-import { useDropzone } from 'react-dropzone';
+// import { useDropzone } from 'react-dropzone';
 import { Container } from './style';
 
 import { Input } from '../../components/Input';
@@ -7,19 +7,19 @@ import { TextArea } from '../../components/TextArea';
 import ImageIcon from '../../assets/icons/image.svg';
 
 export default function NewProduct(props) {
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
+  // const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
 
-  const files = acceptedFiles.map((file) => (
-    <li key={(file.path)}>
-      {file.path}
-      {' '}
-      -
-      {' '}
-      {file.size}
-      {' '}
-      bytes
-    </li>
-  ));
+  // const files = acceptedFiles.map((file) => (
+  //   <li key={(file.path)}>
+  //     {file.path}
+  //     {' '}
+  //     -
+  //     {' '}
+  //     {file.size}
+  //     {' '}
+  //     bytes
+  //   </li>
+  // ));
 
   return (
     <Container>

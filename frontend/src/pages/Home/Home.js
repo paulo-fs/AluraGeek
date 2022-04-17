@@ -1,9 +1,36 @@
+import { useEffect, useState } from 'react';
 import ProductSection from '../../components/ProductSection/ProductSection';
 
+import CategoryService from '../../services/CategoryService';
+
 export default function Home() {
+  const [category, setCategory] = useState([]);
+
+  useEffect(() => {
+    async function loadCategories(){
+      try{
+        const categoryList = await CategoryService.listCategory();
+        setCategory(categoryList);
+      } catch(error){
+        console.log('error', error);
+      }
+    }
+
+    loadCategories();
+  }, []);
+
   return (
     <>
-      <ProductSection
+      {
+        category.map((categories) => (
+          <ProductSection
+            key={categories.id}
+            categoryTitle={categories.name}
+            category="starwars"
+          />
+        ))
+      }
+      {/* <ProductSection
         categoryTitle="Star Wars"
         category="starwars"
       />
@@ -14,7 +41,7 @@ export default function Home() {
       <ProductSection
         categoryTitle="Diversos"
         category="diversos"
-      />
+      /> */}
     </>
   );
 }

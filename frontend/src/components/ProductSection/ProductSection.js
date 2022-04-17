@@ -1,6 +1,7 @@
 import { PropTypes } from 'prop-types';
 
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import ProductCard from '../ProductCard/ProductCard';
 
 import { Container } from './style';
@@ -8,6 +9,21 @@ import { Container } from './style';
 import Arrow from '../../assets/icons/arrow.svg';
 
 export default function ProductSection({ categoryTitle, category }) {
+  const [product, setProduct] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:3001/products')
+      .then(async (response) => {
+        const json = await response.json();
+        setProduct(json);
+      })
+      .catch((error) => {
+        console.log('erro', error);
+      });
+  }, []);
+
+  // console.log(product[0].photo);
+
   return (
     <Container>
       <div className="title">
@@ -19,7 +35,19 @@ export default function ProductSection({ categoryTitle, category }) {
       </div>
       <div className="products">
 
-        <ProductCard
+        {
+          product.map((products) => (
+            <ProductCard
+              key={products.id}
+              name={products.name}
+              price={products.price}
+              link={`/product/${products.id}`}
+              photo={products.photo}
+            />
+          ))
+        }
+
+        {/* <ProductCard
           name="Produto X"
           price="R$55,00"
           link="/product/1"
@@ -59,7 +87,7 @@ export default function ProductSection({ categoryTitle, category }) {
           price="R$65,00"
           link="/product/6"
           photo={`/images/${category}/06.jpg`}
-        />
+        /> */}
 
       </div>
     </Container>
@@ -69,9 +97,4 @@ export default function ProductSection({ categoryTitle, category }) {
 ProductSection.propTypes = {
   categoryTitle: PropTypes.string,
   category: PropTypes.string,
-};
-
-ProductSection.defaultProps = {
-  categoryTitle: 'Categoria',
-  category: 'category',
 };
